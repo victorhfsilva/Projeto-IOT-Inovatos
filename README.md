@@ -55,3 +55,33 @@ Exemplo:
 ```
 i2cdetect -y 0
 ```
+
+## Configurando o Framework Flask
+
+Este é um micro-framework web escrito em Python que foi utilizado para criar APIs que permitem a comunicação entre as duas Orange Pis.
+
+Para instalar um ambiente virtual execute:
+```
+pip3 install virtualenv
+```
+
+Para criar um ambiente virtual execute:
+```
+virtualenv env
+```
+
+Para ativar o ambiente virtual execute:
+```
+source env/bin/activate
+```
+
+Para instalar o framework Flask no ambiente virtual:
+
+```
+pip3 install flask
+```
+
+
+
+
+ 
