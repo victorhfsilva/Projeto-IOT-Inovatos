@@ -1,30 +1,35 @@
+import smbus
+from data import Data
 from webserver import WebServer
-import requests
 import threading
 import time
 
-stop_thread = False
+def run_web_server(web_server):
+    web_server.run_web_server()
 
-def print_server_text():
-    r = requests.get(f"http://192.168.100.3:{port}/data")
-    text = r.text
-    print(text)
+def receive_data(ip: str, port: int) -> str:
+    data_object = Data(ip, port)
+    data = data_object.data
+    return data
 
-def run_web_server(wp):
-    wp.run_web_server()
-    time.sleep(3)
+threads = [0, 0]
+def send_data(data: str, port: int, index: int):
+    assert isinstance(index, int)
+    web_server = WebServer("On", port)
+    threads[index] = threading.Thread(target=lambda: run_web_server(web_server), daemon=True)
+    threads[index].start()
+    time.sleep(1)
 
-port = 49153
-data = "A"
-wp1 = WebServer(data, port)
+send_data("On", 49153, 0)
+print(receive_data("192.168.100.3", 49153))
+send_data("Off", 49154, 1)
+print(receive_data("192.168.100.3", 49154))
 
-server_thread = threading.Thread(target = lambda : run_web_server(wp1), daemon = True)
-server_thread.start()
-time.sleep(2)
-print_server_text()
-data = "B"
-wp1 = WebServer(data, port)
-server_thread = threading.Thread(target = lambda : run_web_server(wp1), daemon = True)
-server_thread.start()
-time.sleep(2)
-print_server_text()
+
+# DEVICE_ADDR = 0x04
+# bus = smbus.SMBus(0)
+# bus.write_byte_data(DEVICE_ADDR, 0x00, 0x01)
+
+
+
+
