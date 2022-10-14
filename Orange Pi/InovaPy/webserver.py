@@ -8,10 +8,9 @@ class WebServer:
         self.__assert_data_is_correct()
 
     def __assert_data_is_correct(self):
-        assert isinstance(self.data, str)
-        assert isinstance(self.port, int)
-        # Allow only dynamic ports
-        assert 49152 <= self.port <= 65535
+        assert isinstance(self.data, str), "Data isn't a String."
+        assert isinstance(self.port, int), "Port isn't an Integer."
+        assert 49152 <= self.port <= 65535, "Port isn't a Dynamic Port."
 
     def run_web_server(self):
         app = Flask(__name__)
