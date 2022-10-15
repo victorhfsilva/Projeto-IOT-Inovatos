@@ -15,5 +15,5 @@ while True:
     if data == "On":
         bus.write_byte_data(DEVICE_ADDR, 0x00, 0x01)
     else:
-        bus.write_byte_data(DEVICE_ADDR, 0x00, 0x01)
+        bus.write_byte_data(DEVICE_ADDR, 0x00, 0x00)
     time.sleep(0.5)
