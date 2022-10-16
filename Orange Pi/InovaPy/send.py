@@ -10,7 +10,7 @@ def send_data(data: str, port: int):
     web_server = WebServer(data, port)
     process = multiprocessing.Process(target=lambda: run_web_server(web_server), daemon=True)
     process.start()
-    time.sleep(1)
+    time.sleep(500)
     return process
 
 send_data("On", 49153)
