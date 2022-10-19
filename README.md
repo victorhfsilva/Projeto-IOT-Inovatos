@@ -37,7 +37,7 @@ i2c0, i2c1, i2c2 nas configurações de hardware.
 
 Em seguida instale os seguintes pacotes:
 ```
-sudo apt install python-smbus python-dev;
+sudo apt install python3-smbus python3-dev;
 sudo apt install i2c-tools;
 sudo apt install libi2c-dev;
 ```
@@ -49,16 +49,22 @@ ou utilizando qualquer outro editor de texto.
 
 Para detectar todos os dispositivos conectados aos pinos i2c execute:
 ```
-i2cdetect -y <I2CBUS>
+sudo i2cdetect -y <I2CBUS>
 ```
 Exemplo:
 ```
-i2cdetect -y 0
+sudo i2cdetect -y 0
 ```
 
 ## Configurando o Framework Flask
 
 Este é um micro-framework web escrito em Python que foi utilizado para criar APIs que permitem a comunicação entre as duas Orange Pis.
+
+Primeiramente instale o pip3:
+
+```
+sudo apt install python3-pip
+```
 
 Para instalar um ambiente virtual execute:
 ```
@@ -67,12 +73,18 @@ pip3 install virtualenv
 
 Para criar um ambiente virtual execute:
 ```
-virtualenv env
+virtualenv venv
 ```
 
 Para ativar o ambiente virtual execute:
 ```
-source env/bin/activate
+source venv/bin/activate
+```
+
+Então instale as dependências do Flask:
+
+```
+pip3 install setuptools
 ```
 
 Para instalar o framework Flask no ambiente virtual:
