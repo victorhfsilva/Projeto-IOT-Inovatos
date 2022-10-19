@@ -1,8 +1,12 @@
+import smbus
 import time
 import multiprocessing
+
 from webserver import WebServer
 from data import Data
-import random
+
+DEVICE_ADDR = 0x04
+bus = smbus.SMBus(0)
 
 def received_web_data(ip: str, port: int) -> str:
     data_object = Data(ip, port)
@@ -13,9 +17,9 @@ def send_i2c_data_loop(ip: str, port: int):
     while True:
         data = received_web_data(ip, port)
         if data == "On":
-            print("I2C Status: On")
+            bus.write_byte_data(DEVICE_ADDR, 0x00, 0x01)
         elif data == "Off":
-            print("I2C Status: Off")
+            bus.write_byte_data(DEVICE_ADDR, 0x00, 0x00)
         else:
             raise ValueError("Invalid data.")
         time.sleep(0.5)
@@ -24,14 +28,14 @@ def run_web_server(web_server):
     web_server.run_web_server()
 
 def receive_i2c_data():
-    data = random.choice([0x1,0x0])
+    data = bus.read_byte_data(DEVICE_ADDR, 0x00)
     return data
 
 def decide_web_data_to_send():
     data = receive_i2c_data()
-    if data == 0x1:
+    if data == 0x01:
         return "On"
-    elif data == 0x0:
+    elif data == 0x00:
         return "Off"
     else:
         raise ValueError("Invalid Data")
@@ -43,11 +47,11 @@ def loop(ip: str, port: int):
         web_server = WebServer(data, port)
         send_web_process = multiprocessing.Process(target=lambda: run_web_server(web_server), daemon=True)
         send_web_process.start()
-        time.sleep(5)
+        time.sleep(1)
         # Initialize I2C process
         send_i2c_process = multiprocessing.Process(target=lambda: send_i2c_data_loop(ip, port), daemon=True)
         send_i2c_process.start()
-        time.sleep(1)
+        time.sleep(0.5)
         # Terminate processes
         send_web_process.terminate()
         send_i2c_process.terminate()
@@ -55,5 +59,3 @@ def loop(ip: str, port: int):
 ip = "192.168.100.3"
 port = 49153
 loop(ip, port)
-
-

@@ -25,7 +25,6 @@ def send_data(data: str, port: int):
     time.sleep(1)
     return process
 
-
 process = send_data("On", 49153)
 print(receive_data("192.168.100.3", 49153))
 process.terminate()
