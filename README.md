@@ -93,5 +93,18 @@ Para instalar o framework Flask no ambiente virtual:
 pip3 install flask
 ```
 
+## Execução do código
 
- 
+Primeiramente carregue o programa __Main2.ino__ em ambas as placas Arduino.
+
+Em seguida ative o ambiente virtual do código InovaPy executando o comando:
+
+```
+source venv/bin/activate
+```
+
+Por fim, execute o código __main.py__ em ambas as Orange Pis:
+
+```
+sudo python3 main.py
+```
